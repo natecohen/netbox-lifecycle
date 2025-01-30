@@ -30,6 +30,14 @@ class VendorTable(NetBoxTable):
 
 
 class SupportSKUTable(NetBoxTable):
+    sku = tables.Column(
+        verbose_name=_('SKU'),
+        linkify=True,
+    )
+    manufacturer = tables.Column(
+        verbose_name=_('Manufacturer'),
+        linkify=True,
+    )
 
     class Meta(NetBoxTable.Meta):
         model = SupportSKU
@@ -69,7 +77,7 @@ class SupportContractAssignmentTable(NetBoxTable):
     device_name = tables.Column(
         verbose_name=_('Device Name'),
         accessor='device__name',
-        linkify=False,
+        linkify={'viewname': 'dcim:device', 'args': [tables.A('device_id')]},
         orderable=True,
     )
     device_serial = tables.Column(
