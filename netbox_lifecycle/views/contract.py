@@ -8,7 +8,7 @@ from netbox_lifecycle.forms import SupportContractFilterForm, VendorFilterForm, 
 from netbox_lifecycle.models import SupportContract, Vendor, LicenseAssignment, SupportContractAssignment, SupportSKU
 from netbox_lifecycle.tables import SupportContractTable, VendorTable, LicenseAssignmentTable, \
     SupportContractAssignmentTable, SupportSKUTable
-from utilities.views import ViewTab, register_model_view
+from utilities.views import ViewTab, register_model_view, GetRelatedModelsMixin
 
 
 __all__ = (
@@ -95,8 +95,13 @@ class SupportSKUListView(ObjectListView):
 
 
 @register_model_view(SupportSKU)
-class SupportSKUView(ObjectView):
+class SupportSKUView(GetRelatedModelsMixin, ObjectView):
     queryset = SupportSKU.objects.all()
+
+    def get_extra_context(self, request, instance):
+        return {
+            'related_models': self.get_related_models(request, instance),
+        }
 
 
 @register_model_view(SupportSKU, 'edit')
