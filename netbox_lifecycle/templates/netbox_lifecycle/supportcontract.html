@@ -6,6 +6,15 @@
 {% load plugins %}
 {% load tabs %}
 
+{% if perms.netbox_lifecycle.add_supportcontractassignment %}
+  {% block extra_controls %}
+    <a href="{% url 'plugins:netbox_lifecycle:supportcontractassignment_add' %}?contract={{ object.pk }}"
+      class="btn btn-primary">
+      <span class="mdi mdi-plus-thick" aria-hidden="true"></span> Add Assignment
+    </a>
+  {% endblock %}
+{% endif %}
+
 {% block content %}
   <div class="row">
     <div class="col col-md-6">
@@ -15,11 +24,11 @@
           <table class="table table-hover attr-table">
             <tr>
               <th>Manufacturer</th>
-              <td>{{ object.manufacturer|linkify }}</td>
+              <td>{{ object.manufacturer|linkify|placeholder }}</td>
             </tr>
             <tr>
               <th>Vendor</th>
-              <td>{{ object.vendor|linkify }}</td>
+              <td>{{ object.vendor|linkify|placeholder }}</td>
             </tr>
             <tr>
               <th>Contract ID</th>
